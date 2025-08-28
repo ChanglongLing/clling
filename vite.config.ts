@@ -20,3 +20,8 @@ export default defineConfig(({ mode }) => ({
     },
   },
 }));
+
+export default defineConfig({
+  base: '/',   // 因为你是用户主页仓库
+  plugins: [react()]
+})
