@@ -33,9 +33,21 @@ jobs:
       - name: Build
         run: npm run build
 
-      # 单页应用建议同时发布 404.html，避免刷新 404
+      # 关键 1：禁用 Jekyll（否则带下划线或某些路径会被忽略）
+      - name: Disable Jekyll
+        run: touch dist/.nojekyll
+
+      # 关键 2：SPA fallback，刷新或直达路由不 404
       - name: SPA fallback
         run: cp dist/index.html dist/404.html
+
+      # 关键 3：调试输出，确保 dist 真有文件
+      - name: List dist
+        run: |
+          echo "==== dist ===="
+          ls -lah dist
+          echo "==== dist/assets ===="
+          ls -lah dist/assets || true
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
